@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome</title>
+  
+  <script>
+  if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+  }
+</script>
+
+    <script>
+        // Guard script: Kicks out unauthenticated users
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html'; 
+        }
+    </script>
+</head>
+<body>
+
+    <h1>Welcome to thecoder.com!</h1>
+    <p>You have successfully passed the login block.</p>
+  <hr><hr>
+    <h5>This is a site on how to code in HTML</h5>
+    <!-- Link to your final restricted page -->
+   
+    <!-- Change your enter link inside welcome.html to point to paywall.html -->
+<a href="paywall.html" class="btn-enter">Upgrade & Launch Workspace →</a>
+
+
+
+</body>
+</html>
