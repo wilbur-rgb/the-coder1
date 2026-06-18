@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Premium Subscription Required</title>
+    
+    <!-- Code.org Safe Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23ffc107'/></svg>">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0b0e14;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .paywall-container {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            max-width: 420px;
+            width: 100%;
+            padding: 35px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .badge {
+            background-color: #ff3b30;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        h1 { color: #ffffff; font-size: 24px; margin: 0 0 10px 0; }
+        p { color: #8b949e; font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+        .price { font-size: 32px; font-weight: bold; color: #2ea44f; margin: 15px 0; }
+        .price span { font-size: 14px; color: #8b949e; font-weight: normal; }
+
+        /* Hide logic triggers */
+        input[type="checkbox"], input[type="radio"] { display: none; }
+
+        /* ==========================================================================
+           💳 TERMINAL MODAL POPUP GATEWAYS
+           ========================================================================== */
+        .credit-card-terminal {
+            display: none;
+            background-color: #0b0e14;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+        .form-row { margin-bottom: 12px; }
+        .form-row label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 4px; font-weight: bold;}
+        .form-row input {
+            width: 100%; padding: 10px; background-color: #161b22; border: 1px solid #30363d;
+            border-radius: 6px; color: white; font-size: 14px; box-sizing: border-box; outline: none;
+        }
+        .form-row input:focus { border-color: #ffc107; }
+
+        /* Processing Notification Panels */
+        #processing-shield {
+            display: none; color: #ffc107; font-weight: bold; text-align: center;
+            padding: 15px; background: rgba(255, 193, 7, 0.1); border-radius: 6px; margin-top: 15px;
+        }
+
+        /* Pure CSS Terminal States Pipeline */
+        #open-terminal-toggle:checked ~ .credit-card-terminal { display: block; }
+        #open-terminal-toggle:checked ~ #main-cta-pay-btn { display: none; }
+        
+        /* If form fields contain content text, reveal processing simulator trigger options */
+        form:valid #submit-payment-btn { display: block; }
+        form:invalid #submit-payment-btn { display: none; }
+
+        #submit-payment-toggle:checked ~ form { display: none; }
+        #submit-payment-toggle:checked ~ #processing-shield { display: block; }
+
+        /* ==========================================================================
+           🔑 KEY VALIDATION ENTRY INTERFACE
+           ========================================================================== */
+        .key-input-container { margin: 25px 0 15px 0; text-align: left; border-top: 1px solid #30363d; padding-top: 20px;}
+        .key-input-container label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 6px; font-weight: bold; }
+        .key-field {
+            width: 100%; padding: 12px; background-color: #0b0e14; border: 2px solid #30363d;
+            border-radius: 6px; color: #ffc107; font-family: monospace; font-size: 15px; box-sizing: border-box; outline: none;
+        }
+        .key-field:focus { border-color: #ffc107; }
+
+        /* CTA Option Cards Buttons Styles */
+        .btn {
+            display: block; width: 100%; padding: 14px; font-size: 16px; font-weight: bold;
+            border: none; border-radius: 6px; cursor: pointer; text-decoration: none; box-sizing: border-box; margin-top: 12px; text-align: center;
+        }
+        .btn-yellow { background-color: #ffc107; color: #0b0e14; }
+        .btn-green { background-color: #2ea44f; color: white; display: none; }
+        .btn-outline { background-color: transparent; color: #8b949e; border: 1px solid #30363d; font-size: 14px; }
+        .btn-outline:hover { background-color: #21262d; color: #ffffff; }
+
+        /* Hard Lock License Validator Engine: Reveals workspace link ONLY when text properties match string explicitly */
+        #key-validation-form:has(.key-field[value="PRO_CREATOR_2026"]) #activate-btn { display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="paywall-container">
+        <span class="badge">Premium Subscription</span>
+        <h1>Upgrade to Pro Developer</h1>
+        <p>Unlock live auto-compilation, tag counters, vector audio structures, and dark mode assistant presets.</p>
+        <div class="price">$4.99 <span>/ month</span></div>
+
+        <!-- HIDDEN INTERFACE WORKFLOW CONTROLLERS -->
+        <input type="checkbox" id="open-terminal-toggle">
+        <input type="checkbox" id="submit-payment-toggle">
+
+        <!-- Initial Master Action Button -->
+        <label for="open-terminal-toggle" id="main-cta-pay-btn" class="btn btn-yellow">💳 Pay Securely Online</label>
+
+        <!-- SECURE PROCESSING MESSAGE BLOCK -->
+        <div id="processing-shield">
+            ⌛ Processing secure token validation transaction...<br>
+            <span style="color: #2ea44f; font-size: 13px; display: block; margin-top: 10px;">✔️ Success! Code Released: <b>PRO_CREATOR_2026</b></span>
+        </div>
+
+        <!-- 💳 THE CREDIT CARD TERMINAL MODAL -->
+        <form onsubmit="return false;" class="credit-card-terminal">
+            <h3 style="margin-top:0; color:#ffc107; border-bottom:1px dashed #30363d; padding-bottom:8px;">Secure Stripe Gateway Sandbox</h3>
+            
+            <div class="form-row">
+                <label>Cardholder Name</label>
+                <input type="text" required placeholder="John Doe">
+            </div>
+            <div class="form-row">
+                <label>Card Number</label>
+                <input type="text" required maxlength="16" placeholder="4000 1234 5678 9010">
+            </div>
+            <div style="display:flex; gap:10px;">
+                <div class="form-row" style="flex:1;">
+                    <label>Expiry Date</label>
+                    <input type="text" required maxlength="5" placeholder="MM/YY">
+                </div>
+                <div class="form-row" style="flex:1;">
+                    <label>CVV Security Code</label>
+                    <input type="text" required maxlength="3" placeholder="123">
+                </div>
+            </div>
+
+            <!-- This sub-button appears once you fill out the card rows text properties -->
+            <label for="submit-payment-toggle" id="submit-payment-btn" class="btn btn-yellow" style="margin-top:10px;">Authorize $4.99 Payment</label>
+        </form>
+
+        <!-- 🔑 THE MANIFESTED CODE CRACKER HUB CONTAINER -->
+        <form id="key-validation-form" onsubmit="return false;">
+            <div class="key-input-container">
+                <label for="premiumKey">Enter Activated Premium License Key:</label>
+                <input type="text" id="premiumKey" class="key-field" placeholder="Paste license key here..." oninput="this.setAttribute('value', this.value)">
+            </div>
+            
+            <!-- This triggers activation routing back to your workspace hub content panel folder -->
+            <a href="pro20.html" id="activate-btn" class="btn btn-green">⚡ Activate Premium Hub</a>
+        </form>
+        
+        <a href="main.html" class="btn btn-outline" style="margin-top: 15px;">← Back to Workspace Portal</a>
+    </div>
+
+</body>
+</html>

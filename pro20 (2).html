@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Pro Dashboard Workspace</title>
+    
+    <!-- Code.org Safe Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23007bff'/></svg>">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 650px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        h1 { margin-bottom: 5px; text-align: center; color: #333; }
+        .hint { color: #666; margin-bottom: 25px; font-size: 15px; text-align: center; }
+
+        /* Hide logic tags natively */
+        input[type="radio"] { display: none; }
+
+        /* ==========================================================================
+           🔒 THE COVERT IMMUTABLE DOOR LOCK (Hides template data from free users)
+           ========================================================================== */
+        .pro-gate-overlay {
+            background: #0b0e14;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 35px;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            margin-bottom: 40px;
+        }
+        .pro-gate-overlay h2 { color: #ffc107; margin-top: 0; }
+        
+        .token-group { max-width: 320px; margin: 20px auto; text-align: left; }
+        .token-group label { display: block; font-size: 12px; color: #8b949e; margin-bottom: 6px; font-weight: bold; }
+        .token-field {
+            width: 100%; padding: 12px; background-color: #161b22; border: 2px solid #30363d;
+            border-radius: 6px; color: #ffc107; font-family: monospace; font-size: 15px; box-sizing: border-box; outline: none;
+        }
+        .token-field:focus { border-color: #ffc107; }
+
+        /* 🔒 BLOCK CONTENT ENGINE SEALS */
+        .locked-premium-workspace-content {
+            display: none; /* Keeps everything completely hidden by default */
+        }
+
+        /* 🔑 CRACK LOCK STATE ROUTER: Only reveals elements if pattern matches token string */
+        form:valid ~ .locked-premium-workspace-content {
+            display: block;
+        }
+        form:valid .pro-gate-overlay {
+            display: none; /* Removes the lock block from view upon unlocking */
+        }
+
+        /* ==========================================================================
+           ⚙️ INTERACTIVE ASSISTANT RENDER DASHBOARD
+           ========================================================================== */
+        .chips-container {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px;
+            background: #e9ecef; padding: 15px; border-radius: 6px;
+        }
+        .tag-chip {
+            background: white; padding: 6px 12px; border-radius: 20px; font-family: monospace;
+            cursor: pointer; border: 1px solid #ccc; user-select: none; font-weight: bold; color: #333; font-size: 13px; transition: all 0.2s;
+        }
+        .tag-chip:hover { background: #007bff; color: white; border-color: #007bff; }
+
+        .ai-response-box {
+            background: white; padding: 25px; border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 80px; font-size: 16px; line-height: 1.6;
+        }
+        .answer { display: none; }
+
+        /* Template logic matching gates */
+        #rad-default:checked ~ .ai-response-box #msg-default { display: block; }
+        #rad-link:checked ~ .ai-response-box #msg-link { display: block; }
+        #rad-bold:checked ~ .ai-response-box #msg-bold { display: block; }
+        #rad-image:checked ~ .ai-response-box #msg-image { display: block; }
+        #rad-table:checked ~ .ai-response-box #msg-table { display: block; }
+        #rad-button:checked ~ .ai-response-box #msg-button { display: block; }
+        #rad-list:checked ~ .ai-response-box #msg-list { display: block; }
+        #rad-form:checked ~ .ai-response-box #msg-form { display: block; }
+        #rad-css:checked ~ .ai-response-box #msg-css { display: block; }
+        #rad-attr:checked ~ .ai-response-box #msg-attr { display: block; }
+        #rad-class:checked ~ .ai-response-box #msg-class { display: block; }
+        #rad-comment:checked ~ .ai-response-box #msg-comment { display: block; }
+        #rad-js:checked ~ .ai-response-box #msg-js { display: block; }
+        #rad-favicon:checked ~ .ai-response-box #msg-favicon { display: block; }
+        #rad-format:checked ~ .ai-response-box #msg-format { display: block; }
+        #rad-val:checked ~ .ai-response-box #msg-val { display: block; }
+
+        /* UI Links Navigation buttons */
+        .btn {
+            display: block; width: 100%; padding: 12px; font-size: 14px; font-weight: bold; color: #8b949e; border: 1px solid #30363d;
+            border-radius: 6px; cursor: pointer; text-decoration: none; box-sizing: border-box; margin-top: 15px; text-align: center;
+        }
+        .btn:hover { background-color: #21262d; color: white; }
+    </style>
+</head>
+<body>
+
+    <!-- 🔒 THE NATIVE GATEKEEPER FORM (Blocks direct address URL typing hackers) -->
+    <form onsubmit="return false;" style="margin:0; padding:0;">
+        <div class="pro-gate-overlay">
+            <h2>💎 Premium Workspace Gate</h2>
+            <p style="color: #8b949e; font-size: 14px; max-width: 360px; margin: 0 auto 15px auto;">This folder directory requires activation tokens. If you accessed this via the navbar dropdown, confirm your license profile below.</p>
+            
+            <div class="token-group">
+                <label>Enter Activated Premium License Key:</label>
+                <!-- pattern Check handles strict text validation checking instantly -->
+                <input type="text" required pattern="PRO_CREATOR_2026" class="token-field" placeholder="Paste license key here...">
+            </div>
+            <a href="paywall.html" class="btn" style="background:#ffc107; color:black; border:none; max-width:320px; margin: 0 auto;">💳 Need a Key? Get Pro License</a>
+        </div>
+    </form>
+</body>
+</html>
+ 

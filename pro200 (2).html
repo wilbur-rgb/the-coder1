@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HTML Developer Workspace PRO</title>
+    <style>
+        /* Premium Pro Dark Styling variables */
+        :root {
+            --bg-main: #0b0f19;
+            --panel-bg: #131c2e;
+            --border-glow: #1e293b;
+            --text-title: #f8fafc;
+            --text-desc: #94a3b8;
+            --pro-gold: #fbbf24;
+            --pro-blue: #38bdf8;
+            --pro-green: #34d399;
+            --pro-red: #f87171;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--bg-main);
+            color: var(--text-title);
+        }
+
+        /* Top Premium Navigation Header */
+        .pro-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #1e1b4b, #111827);
+            padding: 15px 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 1px solid #312e81;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .pro-badge {
+            background: linear-gradient(90deg, var(--pro-gold), #f59e0b);
+            color: #000;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Workstation Panels */
+        .pro-card {
+            background-color: var(--panel-bg);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid var(--border-glow);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 25px;
+        }
+        p { color: var(--text-desc); line-height: 1.5; font-size: 14px; margin-top: 0; }
+        h2 { margin-top: 0; font-size: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+        /* Dashboard Buttons Engine */
+        .btn-group { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .btn {
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.1s, opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-blueprint { background-color: #334155; border: 1px solid #475569; }
+        .btn-run { background-color: var(--pro-blue); color: #0b0f19; }
+        .btn-clear { background-color: #1e293b; color: var(--pro-red); border: 1px solid #334155; }
+        .btn-download { background-color: #0284c7; }
+
+        /* Advanced Dark Coding Area */
+        #htmlEditor {
+            width: 100%;
+            height: 280px;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            background-color: #05070c;
+            color: #e2e8f0;
+            border: 1px solid #334155;
+            border-radius: 8px 8px 0 0;
+            box-sizing: border-box;
+            font-size: 14px;
+            outline: none;
+            display: block;
+            resize: vertical;
+        }
+
+        /* Pro Stats Status Strip */
+        .status-strip {
+            background-color: #090d16;
+            border: 1px solid #334155;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 8px 15px;
+            font-size: 12px;
+            color: var(--text-desc);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        /* HD Preview Visual Display Window */
+        .hd-preview-screen {
+            background-color: #ffffff;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 120px;
+            color: #1e293b;
+            margin-top: 10px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Auto Run Control Panel Toggle */
+        .autorun-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #0f172a;
+            padding: 10px 15px;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--pro-green);
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+    <!-- PREMIUM NAVIGATION BANNER -->
+    <div class="pro-navbar">
+        <div style="font-weight: 800; font-size: 18px; tracking: 0.5px;">⚡ DEV_WORKSPACE</div>
+        <div class="pro-badge">PRO EDITION</div>
+    </div>
+
+    <!-- MAIN CONTROL ARCHITECTURE -->
+    <div class="pro-card">
+        <h2>🚀 Blueprint Systems</h2>
+        <p>Instantly deploy structured engine modules straight into the active text editor panel.</p>
+        <div class="btn-group">
+            <button class="btn btn-blueprint" onclick="loadTemplate('profile')">📋 Profile</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('game')">🎮 Guessing Game</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('audio')">🎵 Laser Synth</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('video')">🎥 Media Player</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('book')">📖 Study Text</button>
+        </div>
+
+        <!-- The High-Tier Code Editor -->
+        <textarea id="htmlEditor" oninput="handleEditorInput()"></textarea>
+        
+        <!-- Live System Metric Strip -->
+        <div class="status-strip">
+            <div>Lines: <span id="lineCount" style="color:var(--pro-blue);">1</span></div>
+            <div>Characters: <span id="charCount" style="color:var(--pro-blue);">0</span></div>
+        </div>
+
+        <!-- Operation Control Bar -->
+        <div class="btn-group" style="margin-top: 20px; align-items: center; justify-content: space-between;">
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-run" onclick="previewCode()">⚡ Compile Code</button>
+                <button class="btn btn-clear" onclick="clearEditor()">❌ Reset Screen</button>
+                <button class="btn btn-download" onclick="downloadCode()">📥 Export File</button>
+            </div>
+            
+            <!-- Dynamic Live Compiler Toggle Box -->
+            <div class="autorun-control">
+                <input type="checkbox" id="autoRunCheck" checked style="cursor: pointer; width: 16px; height: 16px;">
+                <label for="autoRunCheck" style="cursor: pointer;">Live Compilation Active</label>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 30px; border-bottom: 1px solid #1e293b; padding-bottom: 10px; font-size: 16px;">🖥️ HD Sandbox Canvas Render</h3>
+        <div class="hd-preview-screen" id="previewScreen"></div>
+    </div>
+
+    <script>
+        const templates = {
+            profile: "<h2>My Profile</h2><p>Welcome to my personal webpage template.</p>",
+            game: "<h2>Number Game</h2><p>Guess the correct number to win a prize.</p>",
+            audio: "<h2>Retro Sound Synthesizer</h2><p>This generates audio notes directly from your computer chip!</p><button onclick='playBeep()' style='padding:12px; background-color:#ff5722; color:white; border:none; border-radius:6px; cursor:pointer;'>🔊 Generate Laser Beep</button>",
+            video: "<div style='text-align: center; font-family: sans-serif; background: #1e293b; color: white; padding: 25px; border-radius: 12px; max-width: 450px; margin: 0 auto;'><h2>🎬 Interactive Media Simulator</h2><p>Click the button below to test the player controls!</p><div style='width: 100%; height: 180px; background: #0f172a; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #334155; position: relative;'><div id='simRing' style='width: 60px; height: 60px; border: 4px dashed #34d399; border-radius: 50%; display: none; position: absolute;'></div><div id='videoStatus' style='font-weight: bold; color: #64748b; z-index: 2; margin-top: 10px;'>⏸️ VIDEO STOPPED</div></div><button id='playControlBtn' onclick='toggleSimVideo()' style='margin-top: 15px; padding: 10px 20px; background-color: #38bdf8; color: #0f172a; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;'>▶️ Click to Play</button></div>",
+            book: "<div style='font-family:sans-serif; border:2px solid #007bff; padding:20px; border-radius:10px; background-color:#f0f8ff;'><h2>📖 HTML Study Guide</h2><p>Here is your built-in HTML master textbook layout!</p><hr><h3>1. Core Rules</h3><p>HTML elements are written using angle brackets. Most tags come in pairs: an opening tag and a closing tag.</p><h3>2. Head vs Body</h3><ul><li><strong>Head:</strong> Keeps information invisible to users, like your page title tab or style sheets.</li><li><strong>Body:</strong> Houses all the visual buttons, titles, images, and text boxes.</li></ul><h3>3. Common Layout Tags</h3><ul><li>Paragraph tag creates a text line.</li><li>Button tag builds an interactive clicker.</li><li>Strong tag makes your text bold.</li></ul></div>"
+        };
+
+        var isVideoPlaying = false;
+        function toggleSimVideo() {
+            var ring = document.getElementById("simRing");
+            var text = document.getElementById("videoStatus");
+            var btn = document.getElementById("playControlBtn");
+            
+            if (!isVideoPlaying) {
+                ring.style.display = "block";
+                ring.style.animation = "spin 2s linear infinite";
+                text.innerHTML = "▶️ STREAMING LOCAL VIDEO...";
+                text.style.color = "#34d399";
+                btn.innerHTML = "⏸️ Click to Pause";
+                btn.style.backgroundColor = "#ef4444";
+                btn.style.color = "white";
+                isVideoPlaying = true;
+            } else {
+                ring.style.display = "none";
+                text.innerHTML = "⏸️ VIDEO PAUSED";
+                text.style.color = "#64748b";
+                btn.innerHTML = "▶️ Click to Play";
+                btn.style.backgroundColor = "#38bdf8";
+                btn.style.color = "#0f172a";
+                isVideoPlaying = false;
+            }
+        }
+
+        // Live Analyzer for characters, line tracking, and live compiling
+        function handleEditorInput() {
+            var text = document.getElementById('htmlEditor').value;
+            
+            // Live Stats Calculation
+            document.getElementById('charCount').innerText = text.length;
+            var lines = text.split('\n').length;
+            document.getElementById('lineCount').innerText = lines;
+
+            // Live compilation condition check
+            if (document.getElementById('autoRunCheck').checked) {
+                document.getElementById('previewScreen').innerHTML = text;
+            }
+        }
+
+        function loadTemplate(name) {
+            document.getElementById('htmlEditor').value = templates[name];
+            document.getElementById('previewScreen').innerHTML = templates[name];
+            handleEditorInput();
+        }
+
+        function clearEditor() {
+            document.getElementById('htmlEditor').value = "";
+            document.getElementById('previewScreen').innerHTML = "<span style='color: #888; font-style: italic;'>Workspace empty. Ready for raw tag inputs...</span>";
+            handleEditorInput();
+        }
+
+        function previewCode() {
+            var inputData = document.getElementById('htmlEditor').value;
+            document.getElementById('previewScreen').innerHTML = inputData || "Empty Workspace Canvas";
+        }
+
+        function downloadCode() {
+            var inputData = document.getElementById('htmlEditor').value;
+            var blob = new Blob([inputData], { type: 'text/html' });
+            var link = document.createElement("a");
+            link.download = "pro-project.html";
+            link.href = window.URL.createObjectURL(blob);
+            link.click();
+        }
+
+        function playBeep() {
+            var context = new (window.AudioContext || window.webkitAudioContext)();
+            var oscillator = context.createOscillator();
+            oscillator.type = "sine"; 
+            oscillator.frequency.value = 600; 
+            oscillator.connect(context.destination);
+            oscillator.start();
+            oscillator.stop(context.currentTime + 0.15);
+        }
+
+        window.onload = function() {
+            loadTemplate('profile');
+        }
+      
+    </script>
+
+</body>
+</html>

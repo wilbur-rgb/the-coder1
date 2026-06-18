@@ -1,0 +1,163 @@
+<!doctype HTML>
+<html>
+  <head>
+    <script>
+    // 1. Block anyone who isn't logged in at all
+   if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        alert("Access Denied! Please log in first.");
+        window.location.href = 'index.html';
+    }
+    // 2. Block users who haven't made a choice at the storefront yet
+    else if (sessionStorage.getItem('isProUnlocked') !== 'true' && sessionStorage.getItem('isFreeGuest') !== 'true') {
+        window.location.href = 'paywall.html';
+    }
+      function checkProAccess(targetPage) {
+    // 1. Check if they have unlocked Pro mode
+    let isProUser = sessionStorage.getItem("isProUnlocked") === "true";
+    
+    if (isProUser) {
+        // If they are Pro, let them through to the page!
+        window.location.href = targetPage;
+    } else {
+        // If they are a free guest, intercept and send them to the storefront paywall
+        alert("🔒 This is a Pro Feature! Sending you to the storefront to unlock.");
+        window.location.href = "paywall.html";
+    }
+}
+
+</script>
+<script src="script.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    
+<html>
+<head>
+  <title>thecoder</title>
+  <link rel="icon" type="image/png" href="code.png">
+  <link rel="stylesheet" href="style.css">
+  <!-- MOVE THE SCRIPT HERE SO THE BUTTONS CAN SEE IT -->
+  <script src="script.js"></script>
+</head>
+<body>
+
+  <!-- Your Navigation Bar -->
+  
+
+  <!-- Your Buttons -->
+  <button onclick="upgradeToPro()">⭐ Upgrade to Pro Mode</button><br>
+  <br><button onclick="resetToFree()">(Debug: Reset to Free Guest)</button>
+
+</body>
+</html>
+
+
+<!-- The Main Navigation Container -->
+<!-- The Main Navigation Container -->
+<!-- The Main Navigation Container -->
+<div class="navbar" style="background-color: #333; height: 50px; border-radius: 8px; margin-bottom: 20px; position: relative;">
+  <a href="index.html" style="float: left; color: white; padding: 14px 16px; text-decoration: none; font-family: sans-serif;">🏠 Home</a>
+  <a href="contact.html" style="float: left; color: white; padding: 14px 16px; text-decoration: none; font-family: sans-serif;">About</a>
+  
+  <!-- Controlled Dropdown Component -->
+  <div class="dropdown" style="float: left;">
+    <button class="dropbtn" onclick="toggleDropdown()" style="font-size: 16px; color: white; padding: 14px 16px; border: none; background: none; cursor: pointer; font-family: sans-serif;">
+      Web Features ▾
+    </button>
+    
+    <!-- Hardcoded layout box to guarantee it aligns directly underneath -->
+    <div id="myDropdownMenu" class="dropdown-content" style="display: none; position: absolute; top: 50px; left: 80px; background-color: #f9f9f9; min-width: 180px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 99999; border-radius: 0 0 6px 6px;">
+      <a href="coder.html" style="color: black; padding: 12px 16px; text-decoration: none; display: block; text-align: left; font-family: sans-serif;">Sandbox Dashboard</a>
+      <a href="#" onclick="checkProAccess('pro20.html')" style="color: black; padding: 12px 16px; text-decoration: none; display: block; text-align: left; font-family: sans-serif;">Premium Templates</a>
+      <a href="test.html" style="color: black; padding: 12px 16px; text-decoration: none; display: block; text-align: left; font-family: sans-serif;">cheatsheet</a>    
+      <a href="promode.html" style="color: black; padding: 12px 16px; text-decoration: none; display: block; text-align: left; font-family: sans-serif;">basic coding</a>
+    </div>
+  </div> 
+</div>
+
+
+    <meta charset="utf-8">
+    <a href="https://yourdomain.com/"></a>
+    <script>
+  if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+  }
+      function toggleDropdown() {
+    let menu = document.getElementById("myDropdownMenu");
+    
+    if (menu) {
+        // If it is hidden, show it. If it is showing, hide it!
+        if (menu.style.display === "none") {
+            menu.style.display = "block";
+        } else {
+            menu.style.display = "none";
+        }
+    }
+}
+
+// Close the dropdown automatically if the user clicks anywhere else on the screen
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+        let dropdown = document.getElementById("myDropdownMenu");
+        if (dropdown && dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        }
+    }
+}
+
+</script>
+
+
+
+    <!--title-->
+    <h1>HTML</h1> 
+    <hr>
+
+    <p>HTML is a type of computer code/language that is used to create web pages. 
+      HTML is a bit like English. Here are some of the things it does:</p>
+    <h1>HTML</h1>
+    <h2>tags</h2>
+    <p>HTML is a type of computer language used to create web pages. Here are some examples of what tags it uses:</p>    
+    <ul>
+      <li>a p tag.</li>  
+      <li>a li tag.</li> 
+      <li>a ol tag.</li> 
+      <li>a ul tag.</li>
+      <li>a h1,h2,h3,h4,h5 and h6 tags.</li>
+      <li>a div tag</li>
+    </ul>
+    <p>Ah, after ALL that work*! Oh, then my webpage looked just like what your screen is showing you now.</p>
+    <p>*5 weeks.LITERALLY!</p>                                           
+    <!--facts about html-->
+    <p>Sometimes, you just want to do
+    </p><ul>
+    <p> keep  a site private.</p>
+    <p>limit user time.</p>      
+    </ul>  
+    <p>HTML can't do EVERYTHING. I mean, HTML deffinitly can't read your mind!
+      Here are some things HTML can't do:</p>
+    <ul>
+      <p>go to the toilet</p>
+      <p>READ YOUR MIND!</p>
+    </ul>
+    <!--facts about style.CSS-->
+    <p>HTML uses a style.CSS to do its colour and other side effects. For example, I used a Style.CSS to change the colour of these words and background.
+      Here are some things a CSS can do:</p>
+    <ol>
+      <p>change background colours</p>
+      <p>change word and symbol colours</p>
+      <p>WARNING! A Style.CSS Uses A Link. The Link Is Used To Tell Your Computer How To Get There And Operate The Style.CSS. Its Like Plugging In Your computer To A Power Hole. The Link Looks Like This: link rel="stylesheet" href="style.css".</p>
+    </ol>
+    <h2>IMAGES</h2>
+    <p>Since HTML is used to create web pages, why not add images? Fortunatlly, HTML has a way of adding images.Here is the way to add an image:</p>
+    <ol>
+      <p>use "src" to tell your computer its name.</p>
+      <p>use "alt" (not the keyboard letter) to atribute the image.</p>
+    </ol>
+    <p>Example: img src="image name" alt="image description"</p>
+    <a href="cheatsheet.html">next</a>
+    <p>This webpage was made possible by the app Code.org. If you want to make a webpage,  click on this link:</p>
+    <a href="https://studio.code.org/projects/weblab2/1a9fa78e-bd61-4189-bcb8-c81b2b2b8a2b/edit">code.org</a>
+  </body>
+</html>

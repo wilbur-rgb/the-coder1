@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Knowledge Assistant</title>
+    <script>
+        // --- TEMPORARILY DISABLED FOR LOCAL TESTING ---
+        // If you want to turn login protection back on, just delete the "//" markers.
+        
+        // if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        //     alert("Access Denied! Please log in first.");
+        //     window.location.href = 'index.html';
+        // }
+        // else if (sessionStorage.getItem('isProUnlocked') !== 'true' && sessionStorage.getItem('isFreeGuest') !== 'true') {
+        //     window.location.href = 'paywall.html';
+        // }
+    </script>
+
+    <script>
+        // Force HTTPS (Only works when hosted on a live web server)
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            location.replace(`https:${location.href.substring(location.protocol.length)}`);
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+        }
+        .search-container, .ai-search-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #searchInput, #ai-search-input {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px 0 0 6px;
+            outline: none;
+        }
+        #searchBtn, #ai-search-btn {
+            padding: 15px 25px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 0 6px 6px 0;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #ai-search-btn {
+            background-color: #007bff;
+        }
+        .ai-response-box, .ai-response-output {
+            background: white;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            min-height: 60px;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+        .logout { display: inline-block; margin-top: 30px; color: #dc3545; text-decoration: none; }
+        .nav-links { margin-top: 20px; }
+        hr { border: 0; height: 1px; background: #ccc; margin: 40px 0; }
+    </style>
+</head>
+<body>
+
+    <!-- BOX 1: Custom HTML Bot -->
+    <h1>Custom HTML Bot</h1>
+    <p>Type a keyword below and click the button to see the HTML tag rules.</p>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Type bold, link, or image...">
+        <button id="searchBtn" onclick="runBot()">Ask Bot</button>
+    </div>
+
+    <div class="ai-response-box" id="outputBox">
+        Your HTML assistant's response will appear here...
+    </div>
+
+    <hr>
+
+    <!-- BOX 2: Mock AI Assistant -->
+    <h2>Mock AI Assistant</h2>
+    <p>Ask this secondary bot general questions.</p>
+    
+    <div class="ai-search-container">
+        <input type="text" id="ai-search-input" placeholder="Ask the AI anything...">
+        <button id="ai-search-btn" onclick="triggerMockAI()">Ask AI</button>
+    </div>
+    
+    <div class="ai-response-output" id="ai-response">
+        AI response will load here...
+    </div>
+
+    <div class="nav-links">
+        <a href="main.html">previous</a> | <a href="coder.html">next</a>
+    </div>
+    <br>
+    <a href="index.html" class="logout">← Log Out</a>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Logic for the HTML Bot
+        function runBot() {
+            var textTyped = document.getElementById('searchInput').value.toLowerCase().trim();
+            var boxToChange = document.getElementById('outputBox');
+
+            if (textTyped.includes('bold')) {
+                boxToChange.innerHTML = "<strong>Bold Text:</strong> Use the &lt;strong&gt; tag. Example: &lt;strong&gt;Hello&lt;/strong&gt;";
+            } 
+            else if (textTyped.includes('link')) {
+                boxToChange.innerHTML = "<strong>Links:</strong> Use the &lt;a href='index.html'&gt; tag to link pages together.";
+            } 
+            else if (textTyped.includes('image') || textTyped.includes('picture')) {
+                boxToChange.innerHTML = "<strong>Images:</strong> Use the &lt;img src='image.png'&gt; tag to show a photo.";
+            } 
+            else if (textTyped === "") {
+                boxToChange.innerHTML = "<span style='color: red;'>Please type something first!</span>";
+            } 
+            else {
+                boxToChange.innerHTML = "I don't know about '" + textTyped + "' yet. Try typing <b>bold</b>, <b>link</b>, or <b>image</b>.";
+            }
+        }
+
+        // Logic for Mock AI
+        function triggerMockAI() {
+            const query = document.getElementById('ai-search-input').value;
+            const responseBox = document.getElementById('ai-response');
+            
+            if (query.trim() === "") {
+                responseBox.innerHTML = "<span style='color: red;'>Please type something first!</span>";
+                return;
+            }
+            
+            responseBox.innerText = "Thinking...";
+            setTimeout(() => {
+                responseBox.innerText = `AI Response for "${query}": This is a simulated answer generated by your mock AI code!`;
+            }, 1000);
+        }
+    </script>
+
+</body>
+</html>

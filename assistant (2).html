@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML AI Assistant</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%23007bff'/></svg>">
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; background-color: #f4f7f6; }
+        h1 { margin-bottom: 5px; }
+        .hint { color: #666; margin-bottom: 25px; font-size: 15px; }
+        .chips-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; background: #e9ecef; padding: 15px; border-radius: 6px; }
+        .tag-chip { background: white; padding: 6px 12px; border-radius: 20px; font-family: monospace; cursor: pointer; border: 1px solid #ccc; user-select: none; font-weight: bold; color: #333; font-size: 13px; transition: all 0.2s ease; }
+        .tag-chip:hover { background: #007bff; color: white; border-color: #007bff; }
+
+        /* Hides elements flagged with pro traits if block filter hits */
+        body.lock-active .pro-chip { display: none !important; }
+
+        input[type="radio"] { display: none; }
+        .ai-response-box { background: white; padding: 25px; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); min-height: 80px; font-size: 16px; line-height: 1.6; }
+        .answer { display: none; }
+
+        #rad-default:checked ~ .ai-response-box #msg-default { display: block; }
+        #rad-link:checked ~ .ai-response-box #msg-link { display: block; }
+        #rad-bold:checked ~ .ai-response-box #msg-bold { display: block; }
+        #rad-image:checked ~ .ai-response-box #msg-image { display: block; }
+        #rad-table:checked ~ .ai-response-box #msg-table { display: block; }
+        #rad-button:checked ~ .ai-response-box #msg-button { display: block; }
+        #rad-list:checked ~ .ai-response-box #msg-list { display: block; }
+        #rad-form:checked ~ .ai-response-box #msg-form { display: block; }
+        #rad-css:checked ~ .ai-response-box #msg-css { display: block; }
+        #rad-attr:checked ~ .ai-response-box #msg-attr { display: block; }
+        #rad-class:checked ~ .ai-response-box #msg-class { display: block; }
+        #rad-comment:checked ~ .ai-response-box #msg-comment { display: block; }
+        #rad-js:checked ~ .ai-response-box #msg-js { display: block; }
+        #rad-favicon:checked ~ .ai-response-box #msg-favicon { display: block; }
+        #rad-format:checked ~ .ai-response-box #msg-format { display: block; }
+        #rad-val:checked ~ .ai-response-box #msg-val { display: block; }
+
+        .logout { display: inline-block; margin-top: 30px; color: #dc3545; text-decoration: none; }
+        .nav-links { margin-top: 20px; }
+    </style>
+    <script>
+        // Reads from Code.org browser vault instead of the stripped URL string
+        document.addEventListener("DOMContentLoaded", function() {
+            var activeTier = localStorage.getItem('userAccountTier');
+            if (activeTier === 'free') {
+                document.body.classList.add('lock-active');
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <h1>HTML AI Assistant</h1>
+    <p class="hint">Click any concept card below to pull direct definitions instantly.</p>
+
+    <input type="radio" name="html-db" id="rad-default" checked>
+    <input type="radio" name="html-db" id="rad-link">
+    <input type="radio" name="html-db" id="rad-bold">
+    <input type="radio" name="html-db" id="rad-image">
+    <input type="radio" name="html-db" id="rad-table">
+    <input type="radio" name="html-db" id="rad-button">
+    <input type="radio" name="html-db" id="rad-list">
+    <input type="radio" name="html-db" id="rad-form">
+    <input type="radio" name="html-db" id="rad-css">
+    <input type="radio" name="html-db" id="rad-attr">
+    <input type="radio" name="html-db" id="rad-class">
+    <input type="radio" name="html-db" id="rad-comment">
+    <input type="radio" name="html-db" id="rad-js">
+    <input type="radio" name="html-db" id="rad-favicon">
+    <input type="radio" name="html-db" id="rad-format">
+    <input type="radio" name="html-db" id="rad-val">
+
+    <div class="chips-container">
+        <label for="rad-link" class="tag-chip">link</label>
+        <label for="rad-bold" class="tag-chip">bold</label>
+        <label for="rad-image" class="tag-chip">image</label>
+        <label for="rad-table" class="tag-chip">table</label>
+        <label for="rad-button" class="tag-chip">button</label>
+        <label for="rad-list" class="tag-chip">list</label>
+        <label for="rad-form" class="tag-chip">form</label>
+        <label for="rad-css" class="tag-chip">css</label>
+        
+        <!-- Premium Targets wrapped inside pro-chip tags -->
+        <label for="rad-attr" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 attribute</label>
+        <label for="rad-class" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 class & id</label>
+        <label for="rad-comment" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 comment</label>
+        <label for="rad-js" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 javascript</label>
+        <label for="rad-favicon" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 favicon</label>
+        <label for="rad-format" class="tag-chip pro-chip" style="border-color: #007bff; color: #007bff;">💎 formatting</label>
+  </div>
+
+    <div class="ai-response-box">
+        <div class="answer" id="msg-default"><strong>AI Status:</strong> Online. Click any chip option inside the dashboard directory above to run calculations.</div>
+        <div class="answer" id="msg-link"><strong>AI Response (Links):</strong> Use the anchor tag <code>&lt;a&gt;</code> with an <code>href</code> source attribute.</div>
+        <div class="answer" id="msg-bold"><strong>AI Response (Bold Text):</strong> Use the semantic <code>&lt;strong&gt;</code> or visual <code>&lt;b&gt;</code> tag wrapper.</div>
+        <div class="answer" id="msg-image"><strong>AI Response (Images):</strong> Use the self-closing <code>&lt;img&gt;</code> tag. In Code.org, use the exact title of files in your panel.</div>
+        <div class="answer" id="msg-table"><strong>AI Response (Tables):</strong> Build charts with <code>&lt;table&gt;</code>. Add horizontal rows using <code>&lt;tr&gt;</code>, header markers via <code>&lt;th&gt;</code>, and single data cell items with <code>&lt;td&gt;</code>.</div>
+        <div class="answer" id="msg-button"><strong>AI Response (Buttons):</strong> Use the interactive clickable <code>&lt;button&gt;</code> structural block.</div>
+        <div class="answer" id="msg-list"><strong>AI Response (Lists):</strong> Bundle elements using <code>&lt;ul&gt;</code> for standard bullet indicators or <code>&lt;ol&gt;</code> for sequential numerical layouts. Fill entries with <code>&lt;li&gt;</code> tags.</div>
+        <div class="answer" id="msg-form"><strong>AI Response (Forms):</strong> Create an input tracking area using the <code>&lt;form&gt;</code> container block. Nest fields inside using types like <code>&lt;input type="text"&gt;</code> or <code>&lt;textarea&gt;</code>.</div>
+        <div class="answer" id="msg-css"><strong>AI Response (CSS Links):</strong> To bind an external stylesheet template file into your frame, place this tag line directly inside your head layout: <code>&lt;link rel="stylesheet" href="style.css"&gt;</code></div>
+        <div class="answer" id="msg-attr"><strong>AI Response (Attributes):</strong> Attributes configure tags and live in the opening tag. In <code>&lt;a href="index.html"&gt;</code>, the text <code>href</code> is the attribute name and <code>index.html</code> is its target property.</div>
+        <div class="answer" id="msg-class"><strong>AI Response (Classes vs IDs):</strong> Targeting handles for CSS hooks. Group objects together with <code>class="box-style"</code>. For an entirely distinct element, declare <code>id="unique-header"</code>.</div>
+        <div class="answer" id="msg-comment"><strong>AI Response (Comments):</strong> Leave notes that the browser ignores completely. Written as: <code>&lt;!-- Code.org comment block here --&gt;</code></div>
+        <div class="answer" id="msg-js"><strong>AI Response (JavaScript):</strong> Load an external script architecture file into your markup template layout using the script block tag: <code>&lt;script src="script.js"&gt;&lt;/script&gt;</code></div>
+        <div class="answer" id="msg-favicon"><strong>AI Response (Favicons):</strong> Add custom tab icons. For Code.org Web Lab, you can embed tiny vector shapes natively via safe string lines: <code>&lt;link rel="icon" type="image/svg+xml" href="data:image/svg+xml;..."&gt;</code></div>
+        <div class="answer" id="msg-format"><strong>AI Response (Formatting Blocks):</strong> Style scientific or structured text blocks smoothly. Use <code>&lt;code&gt;</code> for monospaced snippets, <code>&lt;sub&gt;</code> for subscripts (like H<sub>2</sub>O), and <code>&lt;sup&gt;</code> for powers (like E=mc<sup>2</sup>).</div>
+        <div class="answer" id="msg-val"><strong>AI Response (Form Validation):</strong> Restrict form submission errors natively. Drop properties like <code>required</code> inside form tags to halt empty logs or <code>minlength="8"</code> to force secure entry boundaries.</div>
+    </div>
+
+    <div class="nav-links">
+        <a href="index.html">previous</a> | <a href="coder.html">next</a>
+    </div>
+    <br>
+    <a href="index.html" class="logout">← Log Out</a>
+
+</body>
+</html>

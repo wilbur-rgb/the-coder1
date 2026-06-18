@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script>
+    // 1. Block anyone who isn't logged in at all
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        alert("Access Denied! Please log in first.");
+        window.location.href = 'index.html';
+    }
+    // 2. Block users who haven't made a choice at the storefront yet
+    else if (sessionStorage.getItem('isProUnlocked') !== 'true' && sessionStorage.getItem('isFreeGuest') !== 'true') {
+        window.location.href = 'paywall.html';
+    }
+</script>
+
+    
+    <meta charset="UTF-8">
+    <title>HTML Developer Workspace</title>
+    <script>
+  if (location.protocol !== 'https:') {
+      location.replace(`https:${location.href.substring(location.protocol.length)}`);
+  }
+</script>
+
+    <!-- SECURITY GUARD CODE: Checks if user is logged in before showing the page -->
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+            // No token found! Send them away immediately
+            alert("Access Denied! Please log in first.");
+            window.location.href = 'index.html';
+        }
+    </script>
+    
+    <style>
+        /* Keep all your existing CSS styles below this line... */
+
+        /* Base Page Design */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        h1, h2 { color: #2c3e50; }
+        p { color: #5a6c7d; line-height: 1.5; }
+
+        /* Container Workspaces */
+        .workspace-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid #e1e8ed;
+        }
+        
+        /* Interactive Search Engine */
+        .search-container {
+            display: flex;
+            margin: 20px 0;
+        }
+        #searchInput {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px 0 0 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        #searchInput:focus { border-color: #28a745; }
+        
+        /* Dashboard Buttons */
+        .btn {
+            padding: 12px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-search { background-color: #28a745; color: white; border-radius: 0 8px 8px 0; }
+        .btn-search:hover { background-color: #218838; }
+        .btn-run { background-color: #007bff; color: white; }
+        .btn-run:hover { background-color: #0056b3; }
+        .btn-download { background-color: #17a2b8; color: white; }
+        .btn-download:hover { background-color: #117a8b; }
+        .btn-upload { background-color: #6c757d; color: white; display: inline-block; }
+        .btn-upload:hover { background-color: #5a6268; }
+
+        /* AI Output Display Box */
+        .ai-response-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #28a745;
+            min-height: 50px;
+            font-size: 15px;
+        }
+
+        /* Developer Code Box */
+        #htmlEditor {
+            width: 100%;
+            height: 240px;
+            padding: 15px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            border-radius: 8px;
+            box-sizing: border-box;
+            resize: vertical;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* Live Preview Window */
+        .preview-window {
+            background: white;
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            min-height: 120px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+            align-items: center;
+        }
+
+        .logout { display: inline-block; margin-top: 20px; color: #dc3545; text-decoration: none; font-weight: bold;}
+        .logout:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <h1>HTML Developer Dashboard</h1>
+    <p>Welcome to your personal workstation. Use the AI helper to research tags, or build directly in the live sandbox.</p>
+
+    <!-- WORKSPACE 1: AI ASSISTANT -->
+    <div class="workspace-card">
+        <h2>💡 AI HTML Helper</h2>
+        <p>Type a keyword like "bold", "link", or "image" to search internal guidelines.</p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Type bold, link, or image...">
+            <button id="searchBtn" class="btn btn-search" onclick="runBot()">Ask Bot</button>
+        </div>
+        <div class="ai-response-box" id="outputBox">
+            Your assistant's response will appear here...
+        </div>
+    </div>
+
+    <!-- WORKSPACE 2: CODE SANDBOX -->
+    <div class="workspace-card">
+        <h2>🛠️ Live HTML Code Sandbox</h2>
+        <p>Edit the code template inside the dark editor layout below, run it live, or upload your own files.</p>
+
+        <!-- Hidden input file element styled by label class -->
+        <div style="margin-bottom: 15px;">
+            <label for="fileUpload" class="btn btn-upload">📂 Upload HTML File</label>
+            <input type="file" id="fileUpload" accept=".html" onchange="uploadCode(event)" style="display: none;">
+        </div>
+
+        <textarea id="htmlEditor"><!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: sans-serif; background: #fffcf5; padding: 15px; border-radius: 6px; }
+        .badge { background: #ff5722; color: white; padding: 6px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <h2>My Sandbox Preview Screen</h2>
+    <p>This entire box renders code in real-time from your black screen editor window directly above.</p>
+    <span class="badge">Live & Functional</span>
+
+</body>
+</html></textarea>
+
+        <div class="button-group">
+            <button class="btn btn-run" onclick="previewCode()">🚀 Run Code</button>
+            <button class="btn btn-download" onclick="downloadCode()">💾 Download File</button>
+        </div>
+
+        <h3>Live Screen Output:</h3>
+        <div class="preview-window" id="previewScreen"></div>
+    </div>
+
+    <a href="index.html" class="logout">← Log Out Workspace</a>
+
+    <!-- Integrated Automation Engine -->
+    <script>
+        // AI Logic Engine
+        function runBot() {
+            var textTyped = document.getElementById('searchInput').value.toLowerCase().trim();
+            var boxToChange = document.getElementById('outputBox');
+
+            if (textTyped.includes('bold')) {
+                boxToChange.innerHTML = "<strong>Bold Text:</strong> Use the &lt;strong&gt; tag. Example: &lt;strong&gt;Hello&lt;/strong&gt;";
+            } 
+            else if (textTyped.includes('link')) {
+                boxToChange.innerHTML = "<strong>Links:</strong> Use the &lt;a href='index.html'&gt; tag to link pages together.";
+            } 
+            else if (textTyped.includes('image') || textTyped.includes('picture')) {
+                boxToChange.innerHTML = "<strong>Images:</strong> Use the &lt;img src='image.png'&gt; tag to show a photo.";
+            } 
+            else if (textTyped === "") {
+                boxToChange.innerHTML = "<span style='color: red;'>Please type something first!</span>";
+            } 
+            else {
+                boxToChange.innerHTML = "I don't know about '" + textTyped + "' yet. Try typing <b>bold</b>, <b>link</b>, or <b>image</b>.";
+            }
+        }
+
+        // Code Editor Preview Engine
+        function previewCode() {
+            var userCode = document.getElementById('htmlEditor').value;
+            var previewScreen = document.getElementById('previewScreen');
+            if (userCode.trim() === "") {
+                previewScreen.innerHTML = "<span style='color: red;'>Please type some code first!</span>";
+                return;
+            }
+            previewScreen.innerHTML = userCode;
+        }
+
+        // File Compiler and Downloader
+        function downloadCode() {
+            var userCode = document.getElementById('htmlEditor').value;
+            if (userCode.trim() === "") {
+                alert("Type some code before trying to download!");
+                return;
+            }
+            var textToBlob = new Blob([userCode], { type: 'text/html' });
+            var downloadLink = document.createElement("a");
+            downloadLink.download = "workspace-project.html";
+            downloadLink.href = window.URL.createObjectURL(textToBlob);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+        // File Uploader Parser
+        function uploadCode(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('htmlEditor').value = e.target.result;
+                previewCode();
+            };
+            reader.readAsText(file);
+        }
+
+        // Self Start Preview on window load
+        window.onload = previewCode;
+    </script>
+
+
+
+<!-- Live HTML Editor Section -->
+    <hr style="margin: 40px 0; border: 1px solid #ddd;">
+    
+    <h2>Live HTML Code Sandbox</h2>
+    <p>Type your HTML code below to preview it live, then click download to save it to your computer.</p>
+
+    <!-- The text box for typing code -->
+    <textarea id="htmlEditor" placeholder="<h1>Type HTML code here...</h1>" style="width: 100%; height: 150px; padding: 10px; font-family: monospace; border: 2px solid #ccc; border-radius: 6px; box-sizing: border-box; resize: vertical;"></textarea>
+
+    <!-- Control Buttons -->
+    <div style="margin: 15px 0;">
+        <button onclick="previewCode()" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">Run Code</button>
+        <button onclick="downloadCode()" style="padding: 10px 20px; background-color: #17a2b8; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; margin-left: 10px;">Download File</button>
+    </div>
+
+    <!-- Live Preview Screen -->
+    <h3>Live Preview:</h3>
+    <div id="previewScreen" style="background: white; border: 2px dashed #bbb; padding: 15px; min-height: 100px; border-radius: 6px;">
+        <span style="color: #888; font-style: italic;">Your live preview will show up here...</span>
+    </div>
+<script>        // 1. Function to show the code live on screen
+        function previewCode() {
+            var userCode = document.getElementById('htmlEditor').value;
+            var previewScreen = document.getElementById('previewScreen');
+            
+            if (userCode.trim() === "") {
+                previewScreen.innerHTML = "<span style='color: red;'>Please type some code first!</span>";
+                return;
+            }
+            
+            // Inject the typed text directly as HTML content
+            previewScreen.innerHTML = userCode;
+        }
+
+        // 2. Function to turn the text into a real file and download it
+        function downloadCode() {
+            var userCode = document.getElementById('htmlEditor').value;
+            
+            if (userCode.trim() === "") {
+                alert("Type some code before trying to download!");
+                return;
+            }
+
+            // Turn the text string into downloadable file data
+            var textToBlob = new Blob([userCode], { type: 'text/html' });
+            var downloadLink = document.createElement("a");
+            
+            downloadLink.download = "my-new-page.html";
+            downloadLink.href = window.URL.createObjectURL(textToBlob);
+            downloadLink.style.display = "none";
+            
+            // Push the secret link to the document, click it, then remove it
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+</script>
+<!-- The File Upload Input and Styled Button -->
+<div style="margin: 15px 0;">
+    <label for="fileUpload" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; display: inline-block;">
+        📂 Upload HTML File
+    </label>
+    <input type="file" id="fileUpload" accept=".html" onchange="uploadCode(event)" style="display: none;">
+</div>
+  <a href="cheatsheet.html">previous</a>
+  <a href="promode.html">next</a>
+<script>// 3. Function to read an uploaded file and put it in the editor
+function uploadCode(event) {
+    var file = event.target.files[0];
+    
+    // Stop if the user cancelled or didn't select a file
+    if (!file) {
+        return;
+    }
+
+    // Use a FileReader to securely read the file text locally
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        // Put the file contents directly into your text editor box
+        document.getElementById('htmlEditor').value = e.target.result;
+        
+        // Instantly run the code to update the live preview
+        previewCode();
+    };
+    
+    reader.readAsText(file);
+}
+</script>
+ 
+</body>
+</html>

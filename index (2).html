@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Knowledge Portal - Login</title>
+    
+    <!-- Code.org Safe Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 100'><circle cx='50' cy='50' r='40' fill='%2328a745'/></svg>">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 450px;
+            margin: 60px auto;
+            padding: 20px;
+            background-color: #f4f7f6;
+            text-align: center;
+        }
+        
+        .portal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+            width: 100%;
+        }
+        h1 { color: #333; margin-bottom: 5px; font-size: 24px; }
+        .subtitle { color: #666; font-size: 14px; margin-bottom: 25px; }
+        
+        .input-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus {
+            border-color: #007bff;
+        }
+
+        /* 🔒 SECURE PATTERN VERIFICATION GATEWAY 🔒 */
+        .storefront-panel {
+            display: none;
+        }
+        
+        #lock-warning {
+            display: block;
+            color: #dc3545;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 15px;
+            padding: 12px;
+            background: #fde8e8;
+            border-radius: 6px;
+        }
+
+        /* THE HARD LOCK ROUTER: Unlocks ONLY when BOTH specific text string patterns match exactly */
+        form:valid .storefront-panel {
+            display: block;
+        }
+        form:valid .login-fields {
+            display: none;
+        }
+        form:valid #lock-warning {
+            display: none;
+        }
+
+        /* UI Buttons Layout */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            box-sizing: border-box;
+            margin-top: 15px;
+            text-align: center;
+        }
+        .btn-green { background-color: #28a745; }
+        .btn-green:hover { background-color: #218838; }
+        .btn-blue { background-color: #007bff; }
+        .btn-blue:hover { background-color: #0056b3; }
+
+        .store-option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        .store-option h3 { margin: 0 0 5px 0; color: #333; }
+        .store-option p { margin: 0; font-size: 13px; color: #666; }
+        
+        .credentials-hint {
+            font-size: 11px;
+            color: #8b949e;
+            margin-top: 15px;
+            font-family: monospace;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <form onsubmit="return false;">
+
+        <div class="portal-box">
+            
+            <!-- STEP 1: LOCKED SIGN IN FIELDS CONTAINER -->
+            <div class="login-fields">
+                <h1>Workspace Locked</h1>
+                <p class="subtitle">Please enter your assigned profile tokens to release the system lock</p>
+                
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <!-- pattern="admin" restricts access to only this precise word string -->
+                    <input type="text" id="username" pattern="admin" required placeholder="Type username...">
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <!-- pattern="html123" restricts access to only this precise word string -->
+                    <input type="password" id="password" pattern="html123" required placeholder="Type password...">
+                </div>
+                
+                <span class="credentials-hint">System Login Demo: admin / html123</span>
+            </div>
+                
+            <!-- This warning stays pinned until the exact pattern strings are completely resolved -->
+            <div id="lock-warning">🔒 Page Locked: Type correct authorization key mismatch configurations</div>
+
+            <!-- STEP 2: STOREFRONT OPTIONS (AUTO-UNLOCK LIFTED ONLY ON SECURE PATTERN COMPLIANCE) -->
+            <div class="storefront-panel">
+                <h1>Access Portal Unlocked</h1>
+                <p class="subtitle">Select an architecture directory tier to deploy your assistant</p>
+
+                <div class="store-option">
+                    <h3>💎 Pro Premium Tier</h3>
+                    <p>Unlock deep-dive formatting tracking rules, validation engines, and settings.</p>
+                    <a href="paywall.html" class="btn btn-blue">Launch Pro Dashboard</a>
+                </div>
+
+                <div class="store-option">
+                    <h3>🍃 Free Guest Pass</h3>
+                    <p>Browse base core configurations like basic paragraph layout tags.</p>
+                    <a href="main.html" class="btn btn-green">Launch Free Pass</a>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</body>
+</html>

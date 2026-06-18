@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Chat Assistant</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: sans-serif; background-color: #212121; color: #ececec; display: flex; flex-direction: column; height: 100vh; }
+        
+        .top-nav {
+            background-color: #171717;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2f2f2f;
+        }
+        .logo { font-weight: bold; font-size: 1.1rem; color: #b4b4b4; }
+        .nav-btn {
+            background-color: #2f2f2f;
+            color: #ececec;
+            border: 1px solid #424242;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .nav-btn:hover { background-color: #424242; color: #fff; }
+
+        #chat-container { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; max-width: 800px; width: 100%; margin: 0 auto; }
+        .message-row { display: flex; width: 100%; gap: 12px; }
+        .user-row { flex-direction: row-reverse; }
+        .ai-row { flex-direction: row; }
+        
+        .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: bold; font-size: 0.8rem; }
+        .ai-avatar { background-color: #10a37f; color: white; }
+        .user-avatar { background-color: #543fd7; color: white; }
+        
+        .bubble { max-width: 75%; padding: 10px 16px; border-radius: 20px; font-size: 1rem; line-height: 1.5; white-space: pre-wrap; width: 100%; }
+        .user-bubble { background-color: #2f2f2f; width: auto; }
+        .ai-bubble { background-color: transparent; padding-left: 0; }
+        
+        /* Styled container for the generated code segments */
+        .code-block-wrapper {
+            background-color: #1e1e1e; 
+            border: 1px solid #424242; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            margin: 12px 0; 
+            width: 100%;
+        }
+        .code-block-header {
+            background-color: #2d2d2d; 
+            padding: 8px 16px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #424242; 
+            font-size: 0.85rem; 
+            color: #b4b4b4;
+        }
+        .copy-inline-btn {
+            background: transparent; 
+            border: none; 
+            color: #b4b4b4; 
+            cursor: pointer; 
+            font-size: 0.85rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 4px; 
+            width: auto; 
+            height: auto; 
+            font-weight: normal;
+        }
+        .code-block-wrapper pre { margin: 0; padding: 16px; overflow-x: auto; }
+        .code-block-wrapper code { font-family: monospace; color: #a9b7c6; font-size: 0.95rem; white-space: pre; }
+
+        .input-container { background-color: #212121; padding: 20px; width: 100%; }
+        .input-wrapper { max-width: 800px; margin: 0 auto; display: flex; background-color: #2f2f2f; border-radius: 24px; padding: 10px 14px; border: 1px solid #424242; }
+        #prompt { flex: 1; background: transparent; border: none; color: #fff; font-size: 1rem; padding: 6px 10px; outline: none; }
+        
+        .send-arrow { background-color: #676767; color: #171717; border: none; border-radius: 50%; width: 36px; height: 36px; cursor: pointer; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        .send-arrow:hover { background-color: #fff; }
+        .send-arrow:disabled { background-color: #212121; color: #424242; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <div class="logo">Phi-3 Chat</div>
+        <a href="coder.html" class="nav-btn">Next →</a>
+    </div>
+
+    <div id="chat-container">
+        <div class="message-row ai-row">
+            <div class="avatar ai-avatar">AI</div>
+            <div class="bubble ai-bubble">Hello! I am a web development assistant. Ask me for some HTML/CSS elements!</div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="input-wrapper">
+            <input type="text" id="prompt" placeholder="Message Phi-3..." autocomplete="off">
+            <button class="send-arrow" id="send-btn" onclick="askOllama()">↑</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('prompt').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) { 
+                e.preventDefault(); 
+                askOllama(); 
+            }
+        });
+
+        async function askOllama() {
+            const promptInput = document.getElementById('prompt');
+            const chatContainer = document.getElementById('chat-container');
+            const sendBtn = document.getElementById('send-btn');
+            const promptText = promptInput.value.trim();
+            
+            if (!promptText) return;
+
+            promptInput.value = '';
+            promptInput.disabled = true;
+            sendBtn.disabled = true;
+
+            // 1. Add User Bubble
+            const userRow = document.createElement('div');
+            userRow.className = 'message-row user-row';
+            userRow.innerHTML = `<div class="avatar user-avatar">ME</div><div class="bubble user-bubble">${escapeHtml(promptText)}</div>`;
+            chatContainer.appendChild(userRow);
+
+            // 2. Add AI Container Row
+            const aiRow = document.createElement('div');
+            aiRow.className = 'message-row ai-row';
+            aiRow.innerHTML = `<div class="avatar ai-avatar">AI</div>`;
+            
+            const responseBubble = document.createElement('div');
+            responseBubble.className = 'bubble ai-bubble';
+            responseBubble.innerText = "Thinking...";
+            aiRow.appendChild(responseBubble);
+            chatContainer.appendChild(aiRow);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Strict instructions formatting markdown wrappers
+            const systemInstructions = "You are a web development assistant. You must ONLY answer questions about HTML, CSS, or JS. If code is requested, you must wrap it in triple backticks, like this: ```html <code> ```. Keep explanations under 2 sentences.";
+            const finalPrompt = `${systemInstructions}\n\nUser Question: ${promptText}`;
+
+            let fullRawResponse = "";
+
+            try {
+                const response = await fetch('https://127.0.0', {
+
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ model: 'phi3:mini', prompt: finalPrompt, stream: true })
+                });
+
+                if (!response.ok) throw new Error("Connection failed");
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.trim() !== '') {
+                            const parsed = JSON.parse(line);
+                            fullRawResponse += parsed.response;
+                            
+                            // Process text vs code segments live
+                            renderIncomingContent(responseBubble, fullRawResponse);
+                            chatContainer.scrollTop = chatContainer.scrollHeight;
+                        }
+                    }
+                }
+            } catch (error) {
+                responseBubble.innerText = "Error linking to local model.";
+                responseBubble.style.color = "#ff6b6b";
+            } finally {
+                promptInput.disabled = false;
+                sendBtn.disabled = false;
+                promptInput.focus();
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+
+        // Live markdown segment parser
+        function renderIncomingContent(containerElement, rawText) {
+            containerElement.innerHTML = ""; // Wipe container canvas
+            
+            // Split the incoming stream by backtick block arrays
+            const parts = rawText.split("```");
+            
+            parts.forEach((part, index) => {
+                // Odd indices contain code inside backticks
+                if (index % 2 !== 0) {
+                    const uniqueId = "code-segment-" + index + "-" + Date.now();
+                    
+                    // Clean off language designations if present (like "html" or "css")
+                    let cleanCode = part;
+                    if (cleanCode.startsWith("html\n")) cleanCode = cleanCode.substring(5);
+                    else if (cleanCode.startsWith("css\n")) cleanCode = cleanCode.substring(4);
+                    else if (cleanCode.startsWith("javascript\n")) cleanCode = cleanCode.substring(11);
+                    else if (cleanCode.startsWith("js\n")) cleanCode = cleanCode.substring(3);
+
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'code-block-wrapper';
+                    wrapper.innerHTML = `
+                        <div class="code-block-header">
+                            <span>Code Snippet</span>
+                            <button class="copy-inline-btn" onclick="copyCode(this, '${uniqueId}')">📋 Copy code</button>
+                        </div>
+${escapeHtml(cleanCode.trim())}`;
+                  containerElement.appendChild(wrapper);
+                }
+                else {
+                  // Even indices contain normal text conversation blocks
+                  if (part.trim() !== "") {
+                    const textSpan = document.createElement('span');
+                    textSpan.innerText = part;
+                    containerElement.appendChild(textSpan);
+                  }
+                }
+            }
+                         )
+              ;
+        }
+      function copyCode(buttonElement, targetId) {
+        const textToCopy = document.getElementById(targetId).innerText;
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          buttonElement.innerHTML = "✓ Copied!";
+          buttonElement.style.color = "#a3e635";
+          setTimeout(() => {
+            buttonElement.innerHTML = "📋 Copy code";
+            buttonElement.style.color = "#b4b4b4";
+          }, 2000);
+        }
+                                                      )
+          .catch(err => {
+            console.error("Clipboard failure", err);
+          }
+                );
+      }
+      function escapeHtml(text) {
+        return text.replace(/&/g, "&").replace(/</g, "<").replace(/>/g, ">");
+      }
+</script>
+</body>
+</html>

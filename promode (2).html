@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <script>
+    // 1. Block anyone who isn't logged in at all
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        alert("Access Denied! Please log in first.");
+        window.location.href = 'index.html';
+    }
+    // 2. Block users who haven't made a choice at the storefront yet
+    else if (sessionStorage.getItem('isProUnlocked') !== 'true' && sessionStorage.getItem('isFreeGuest') !== 'true') {
+        window.location.href = 'paywall.html';
+    }
+  </script>
+
+    <meta charset="UTF-8">
+  <meta name="viewport" 
+    <link rel="icon" type="image/png" href="data:image/png;base64,data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAcCAIAAAB6XqHFAAACO0lEQVR4nOyWSUgbURjHX8apNkmrpb21hXqqdWtsXZK0MakaN0JpC7aWtngphZYW20OxYEvpAqUHLyqeFBEUF1BwizoRFwIqHlxCnKjRmBgVNdGDSpyJS+ITJUyMJhMxMEh+zGHee9/35z8ff4aHhvMSAANAADPw+3DG78MZFLnABgzAh/MIy+6lX3wu8sGPv/fn5zdwFqDgtAQgiCwzramlDZwFyKcPbyPu3HZXwWIJ+XH5eV847IvUfXGikCSJoRE1fL8bFe5Rxz2oSjWWnfXUZrf1KPv7BwZ3dnYdZ1wOOyVJLBIJTMvmFjm2SZCOIziMjNTkqpr6gyWumQwJDj5Jhw4BxC7aq+xbW9+QJAqfPZFxORztlC7k8qVXL7NyXr8gSWt1bUM71mUyr1DbUlPE165eaWiUHyztdrtxbuGIjhl9uIpX0PRxmI9RlRo+IqEg583zDkVXaOit+zHRRSWl2ukZ156gwMCMdGlZeaXrEVUHVwL6HPqI4UVLk8Q3b1zHOrut1i2DYXZoWJX78Z0an5C3K+YXFqk90mSJ0TinGde6ylF1QFAsoA3rfW4e1PWYD6yzR42P729y2X9/5ReXlOoNRkcljMsDQfwRHfgfm6x7RNMHyuNF1dU3aiaO+TjLJtEsx1rbFPyE2MeydN2MHkY1M02q0+mpJiCREWFudOjAioyT0K+Gw/j3+8f/gsLFJZPHYu/mAbzBYiE+f/0OfID//uEMU3x4l1Pfgdq2CcAA/Plwhik+9gAAAP//5hZPZgAAAAZJREFUAwCA0fiCCKML6wAAAABJRU5ErkJggg==">
+
+    <title>HTML Sandbox Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            max-width: 850px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #f0f2f5;
+            color: #2c3e50;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        .btn {
+            padding: 10px 18px;
+            font-size: 14px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-blueprint { background-color: #4a5568; }
+        .btn-run { background-color: #007bff; }
+        .btn-download { background-color: #17a2b8; }
+        
+        #htmlEditor {
+            width: 100%;
+            height: 250px;
+            padding: 15px;
+            font-family: monospace;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+        .preview-window {
+            background: white;
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            min-height: 100px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .button-group { display: flex; gap: 8px; margin: 10px 0; }
+        
+        /* Animation settings for our video wheel */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+  <!-- Your premium button starts hidden -->
+  <!-- Navigation Button Group -->
+<div style="margin-bottom: 20px; display: flex; gap: 10px;">
+  
+  <!-- ⬅️ PREVIOUS BUTTON -->
+  <button onclick="window.location.href='main.html'" style="padding: 10px 20px; background-color: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+    ⬅️ Go Back Home
+  </button>
+
+  <!-- ➡️ PREMIUM NEXT BUTTON (Fixed with onclick destination) -->
+  <button id="proNextButton" onclick="window.location.href='pro20.html'" style="display: none !important; padding: 10px 20px; background-color: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
+    Next Premium Page ➡️
+  </button>
+  
+</div>
+
+
+    <h1>HTML Sandbox Dashboard</h1>
+
+    <div class="card">
+        <h2>🛠️ Select a Blueprint Template</h2>
+        <p>Click a button below to load its starting layout tags into the editor.</p>
+        
+        <!-- Blueprint Buttons -->
+        <div class="button-group">
+            <button class="btn btn-blueprint" onclick="loadTemplate('profile')">📋 Profile Page</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('game')">🎮 Guessing Game</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('audio')">🎵 Audio Player</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('video')">🎥 Video Player</button>
+            <button class="btn btn-blueprint" onclick="loadTemplate('book')">📖 Study Guide</button>
+        </div>
+
+        <!-- The Code Editor Screen -->
+        <textarea id="htmlEditor"></textarea>
+
+        <div class="button-group" style="margin-top: 15px;">
+            <button class="btn btn-run" onclick="previewCode()">🚀 Run Content</button>
+            <button class="btn btn-download" onclick="downloadCode()">📥 Download File</button>
+        </div>
+
+        <h3>Live Preview Screen:</h3>
+        <div class="preview-window" id="previewScreen"></div>
+    </div>
+
+    <script>
+        // --- 1. PRO MODE BUTTON VISIBILITY CHECK ---
+        // Notice your code uses 'sessionStorage' for logins, so we look at 'isProUnlocked' here!
+        let nextButton = document.getElementById("proNextButton");
+        if (nextButton) {
+            let isProUser = sessionStorage.getItem("isProUnlocked") === "true";
+            if (isProUser) {
+                nextButton.style.setProperty("display", "block", "important");
+            } else {
+                nextButton.style.setProperty("display", "none", "important");
+            }
+        }
+
+        // --- 2. TEMPLATES & UTILITIES ---
+        const templates = {
+            profile: "<h2>My Profile</h2><p>Welcome to my personal webpage template.</p>",
+            game: "<h2>Number Game</h2><p>Guess the correct number to win a prize.</p>",
+            audio: "<h2>Retro Sound Synthesizer</h2><p>This generates audio notes directly from your computer chip!</p><button onclick='playBeep()' style='padding:12px; background-color:#ff5722; color:white; border:none; border-radius:6px; cursor:pointer;'>🔊 Generate Laser Beep</button>",
+            video: "<div style='text-align: center; font-family: sans-serif; background: #1e293b; color: white; padding: 25px; border-radius: 12px; max-width: 450px; margin: 0 auto;'><h2>🎬 Interactive Media Simulator</h2><p>Click the button below to test the player controls!</p><div style='width: 100%; height: 180px; background: #0f172a; border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid #334155; position: relative;'><div id='simRing' style='width: 60px; height: 60px; border: 4px dashed #34d399; border-radius: 50%; display: none; position: absolute;'></div><div id='videoStatus' style='font-weight: bold; color: #64748b; z-index: 2; margin-top: 10px;'>⏸️ VIDEO STOPPED</div></div><button id='playControlBtn' onclick='toggleSimVideo()' style='margin-top: 15px; padding: 10px 20px; background-color: #38bdf8; color: #0f172a; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;'>▶️ Click to Play</button></div>",
+            book: "<div style='font-family:sans-serif; border:2px solid #007bff; padding:20px; border-radius:10px; background-color:#f0f8ff;'><h2>📖 HTML Study Guide</h2><p>Here is your built-in HTML master textbook layout!</p><hr><h3>1. Core Rules</h3><p>HTML elements are written using angle brackets. Most tags come in pairs: an opening tag and a closing tag.</p><h3>2. Head vs Body</h3><ul><li><strong>Head:</strong> Keeps information invisible to users, like your page title tab or style sheets.</li><li><strong>Body:</strong> Houses all the visual buttons, titles, images, and text boxes.</li></ul><h3>3. Common Layout Tags</h3><ul><li>Paragraph tag creates a text line.</li><li>Button tag builds an interactive clicker.</li><li>Strong tag makes your text bold.</li></ul></div>"
+        };
+
+        var isVideoPlaying = false;
+        function toggleSimVideo() {
+            var ring = document.getElementById("simRing");
+            var text = document.getElementById("videoStatus");
+            var btn = document.getElementById("playControlBtn");
+            
+            if (!isVideoPlaying) {
+                ring.style.display = "block";
+                ring.style.animation = "spin 2s linear infinite";
+                text.innerHTML = "▶️ STREAMING LOCAL VIDEO...";
+                text.style.color = "#34d399";
+                btn.innerHTML = "⏸️ Click to Pause";
+                btn.style.backgroundColor = "#ef4444";
+                btn.style.color = "white";
+                isVideoPlaying = true;
+            } else {
+                ring.style.display = "none";
+                text.innerHTML = "⏸️ VIDEO PAUSED";
+                text.style.color = "#64748b";
+                btn.innerHTML = "▶️ Click to Play";
+                btn.style.backgroundColor = "#38bdf8";
+                btn.style.color = "#0f172a";
+                isVideoPlaying = false;
+            }
+        }
+
+        function loadTemplate(name) {
+            document.getElementById('htmlEditor').value = templates[name];
+            previewCode();
+        }
+
+        function previewCode() {
+            var inputData = document.getElementById('htmlEditor').value;
+            document.getElementById('previewScreen').innerHTML = inputData;
+        }
+
+        function downloadCode() {
+            var inputData = document.getElementById('htmlEditor').value;
+            var blob = new Blob([inputData], { type: 'text/html' });
+            var link = document.createElement("a");
+            link.download = "project.html";
+            link.href = window.URL.createObjectURL(blob);
+            link.click();
+        }
+
+        function playBeep() {
+            var context = new (window.AudioContext || window.webkitAudioContext)();
+            var oscillator = context.createOscillator();
+            oscillator.type = "sine";
+            oscillator.frequency.value = 800;
+            oscillator.connect(context.destination);
+            oscillator.start();
+            setTimeout(function() { oscillator.stop(); }, 150);
+        }
+    </script>
+</body>
+</html>
